@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------
 
-\#\#\#\#A1
+#Drosophila Project
 
 In this project we want to determine the effects of gene knockout and
 sex on olfactory response in Drosophila.
