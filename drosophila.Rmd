@@ -1,0 +1,68 @@
+---
+title: "Drosophila Project"
+author: "Cristy Almonte"
+date: "due: 5pm, Monday, 9 December 2019"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align="center")
+set.seed(1)
+options(width=100)
+```
+
+---
+
+####A1
+
+In this project we want to determine the effects of gene knockout and sex on olfactory response in Drosophila. 
+
+```{r}
+d <- read.table(file="olfactory_response.tsv", sep="\t", header=TRUE)
+head(d)
+```
+
+```{r}
+table(d$sex, d$knockout)
+```
+
+
+**Here we want to compare olfactory response with sex and gene knockout.**
+
+
+Let's first perform anova on the full model. 
+
+```{r}
+summary(aov(response ~ knockout * sex, data=d))
+```
+
+Here the both the marginal effects and interaction effect are all significant. The same was true for regression with categorical variables. 
+```{r}
+summary(lm(response ~ knockout * sex, data=d))
+```
+
+Box plot to model differences. 
+
+```{r, fig.height=4, fig.width=7, echo=-1}
+par(mar=c(4,4,1,1))
+boxplot(response ~ knockout * sex, data=d)
+```
+
+With this visualization we can see more clearly that the gene  might only have an effect in females.
+
+Next we can test this by doing anova on each sex.
+females:
+
+```{r}
+summary(aov(response ~ knockout, data=d[d$sex == "female",]))
+```
+
+males:
+
+```{r}
+summary(aov(response ~ knockout, data=d[d$sex == "male",]))
+```
+
+The F tests performed show clearly that the effect of the knockout is only present in female flies.
+
+---
+
