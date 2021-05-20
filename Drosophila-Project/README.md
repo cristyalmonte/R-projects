@@ -1,6 +1,6 @@
 ------------------------------------------------------------------------
 
-#Drosophila Project
+# Drosophila Project
 
 In this project we want to determine the effects of gene knockout and
 sex on olfactory response in Drosophila.
@@ -69,7 +69,7 @@ Box plot to model differences.
 
     boxplot(response ~ knockout * sex, data=d)
 
-<img src="drosophila_files/figure-markdown_strict/unnamed-chunk-5-1.png" style="display: block; margin: auto;" />
+<img src="Figure1.png" style="display: block; margin: auto;" />
 
 With this visualization we can see more clearly that the gene might only
 have an effect in females.
