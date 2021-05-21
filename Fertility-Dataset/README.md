@@ -67,7 +67,7 @@ Now income vs fertility and regression line:
     plot(fertility ~ income, data=f)
     abline(intercept, b1, col="red")
 
-<img src="Figure1" style="display: block; margin: auto;" />
+<img src="Figure1.png" style="display: block; margin: auto;" />
 Lowest fertility:
 
     f[which.min(f$fertility),]
