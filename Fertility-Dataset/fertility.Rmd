@@ -12,7 +12,7 @@ options(width=100)
 
 ---
 
-#### Q3
+####
 In this project, we want to obtain the confidence interval for fertility when fertility is modeled along side income and urbanization. 
 
 Data: Wikipedia detailing fertility, income, and urbanization from the 50 US states and the District of Columbia. 
