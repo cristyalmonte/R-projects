@@ -1,0 +1,96 @@
+---
+title: "Fertility"
+author: "Cristy Almonte"
+output:  md_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, fig.align="center")
+set.seed(1)
+options(width=100)
+```
+
+---
+
+#### Q3
+In this project, we want to obtain the confidence interval for fertility when fertility is modeled along side income and urbanization. 
+
+Data: Wikipedia detailing fertility, income, and urbanization from the 50 US states and the District of Columbia. 
+```{r}
+f <- read.table(file="predicting_fertility.tsv", sep="\t", header=TRUE, stringsAsFactors=FALSE)
+head(f)
+```
+
+
+```{r}
+cor(f$fertility, f$income)
+```
+
+Regression of income vs fertility:
+
+```{r}
+res <- summary(lm(fertility ~ income, data=f))
+print(res)
+```
+
+Extracting values for  $s_{\hat{b}_1}$ :
+
+```{r}
+sb1 <- res$coefficients["income", "Std. Error"]
+```
+
+Confidence interval when just modeling fertility with income:
+
+```{r}
+b1 <- res$coefficients["income", "Estimate"]
+b1 + qt(c(0.025, 0.975), df=nrow(f)-2) * sb1
+```
+
+Both ends of this interval are negative, therefore the confidence interval does not include 0.
+
+Now income vs fertility and regression line:
+
+```{r, fig.height=4, fig.width=6, echo=-1}
+par(mar=c(4,4,1,1))
+intercept <- res$coefficients["(Intercept)", "Estimate"]
+plot(fertility ~ income, data=f)
+abline(intercept, b1, col="red")
+```
+ Lowest fertility:
+
+```{r}
+f[which.min(f$fertility),]
+```
+Highest Fertility: 
+```{r}
+f[which.max(f$fertility),]
+```
+The District of Columbia has the lowest fertility, while South Dakota has the highest. 
+
+```{r}
+sum(f$urbanization == 1)
+```
+DC is the only place with 100% urbanization, because its the only place that is not a state. 
+
+Given that the lowest fertility has highest urbanization, perhaps urbanization should be included in the model.
+
+Here's a new linear model with `urbanization` as a predictor:
+
+```{r}
+res2 <- summary(lm(fertility ~ income + urbanization, data=f))
+print(res2)
+```
+
+New confidence interval:
+
+```{r}
+res$coefficients["income", "Estimate"] + qt(0.025, df=49)*sb1
+res$coefficients["income", "Estimate"] + qt(0.975, df=49)*sb1
+```
+
+Including  urbanization in the model, removes the effect between income and fertility. Unlike the previous model, the confidence interval now includes 0.
+
+---
+
+
+
